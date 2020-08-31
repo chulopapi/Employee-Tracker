@@ -1,25 +1,56 @@
-DROP DATABASE IF EXISTS employee_data;
-CREATE DATABASE employee_data;
-USE employee_data;
-CREATE TABLE departmento(
-    id INTEGER(11) AUTO_INCREMENT NOT NULL,
-    name VARCHAR(30),
-    PRIMARY KEY (id)
-);
-CREATE TABLE role(
-    id INTEGER(11) AUTO_INCREMENT NOT NULL,
-    title VARCHAR(30),
-    salary DECIMAL,
-    department_id INT,
-    PRIMARY KEY (id),
-    CONSTRAINT fk_dept FOREIGN KEY (department_id) REFERENCES departmento(id) ON DELETE CASCADE
-);
-CREATE TABLE employee(
-    id INTEGER(11) AUTO_INCREMENT NOT NULL,
-    first_name VARCHAR(20),
-    last_name VARCHAR(20),
-    role_id INTEGER(11),
-    manager_id INTEGER(11),
-    PRIMARY KEY (id),
-    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE CASCADE
-);
+
+// declarations and functions
+
+const credentials = require('./credentials');
+const mysql = require("mysql2/promise");
+
+const queryHandler = {
+    async getAll(table) {
+        const connection = await mysql.createConnection(credentials);
+        const [rows, fields] = await connection.execute(`SELECT * FROM ${table}`);
+        await connection.close();
+        return rows;
+    },
+    async addRecord(table,data) {
+        const connection = await mysql.createConnection(credentials);
+        await connection.execute(`INSERT INTO ${table} set ${data}`);
+        await connection.close();
+        return;
+    },
+    async updateRecord(table,data,id) {
+        const connection = await mysql.createConnection(credentials);
+        await connection.execute(`UPDATE ${table} SET ${data} WHERE id=${id}`);
+        await connection.close();
+        return;
+    },
+    async showAllEmployees() {
+        const connection = await mysql.createConnection(credentials);
+        const [rows,fields] = await connection.execute(
+            `
+            SELECT e.id, e.first_name as 'first name', e.last_name as 'last name', r.title as title, 
+            d.name as department, r.salary as salary, IFNULL(CONCAT(m.first_name, ' ', m.last_name), 'N/A') as Manager 
+
+            FROM employee e
+            LEFT JOIN role r ON e.role_id = r.id
+            LEFT JOIN department d ON r.department_id = d.id
+            LEFT JOIN employee m ON m.id = e.manager_id
+            `
+        )
+        await connection.close();
+        return rows;
+    },
+    async showAllRoles() {
+        const connection = await mysql.createConnection(credentials);
+        const [rows,fields] = await connection.execute(
+            `
+            SELECT r.title as title, r.id as 'r id', d.name as department, r.salary as salary
+            FROM role r
+            JOIN department d ON r.department_id = d.id 
+            `
+        )
+            await connection.close();
+            return rows;
+    }
+};
+
+module.exports = queryHandler;
