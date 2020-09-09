@@ -18,5 +18,10 @@
   "bugs": {
     "url": "https://github.com/chulopapi/Employee-Tracker/issues"
   },
-  "homepage": "https://github.com/chulopapi/Employee-Tracker#readme"
+  "homepage": "https://github.com/chulopapi/Employee-Tracker#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "enquirer": "^2.3.6",
+    "mysql2": "^2.1.0"
+  }
 }
