@@ -1,8 +1,14 @@
-
 // declarations and functions
-
-const credentials = require('./credentials');
 const mysql = require("mysql2/promise");
+const credentials = {
+    host: 'localhost',
+    port: 3306,
+    //MySQL username
+    user: 'root',
+    //MySQL password
+    password: '',
+    database: 'employeeDB'
+  };
 
 const queryHandler = {
     async getAll(table) {
@@ -10,7 +16,7 @@ const queryHandler = {
         const [rows, fields] = await connection.execute(`SELECT * FROM ${table}`);
         await connection.close();
         return rows;
-    },
+    }, 
     async addRecord(table,data) {
         const connection = await mysql.createConnection(credentials);
         await connection.execute(`INSERT INTO ${table} set ${data}`);

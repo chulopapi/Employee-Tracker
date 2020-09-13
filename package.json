@@ -7,7 +7,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,7 @@
   "homepage": "https://github.com/chulopapi/Employee-Tracker#readme",
   "dependencies": {
     "console.table": "^0.10.0",
-    "enquirer": "^2.3.6",
+    "inquirer": "^7.3.3",
     "mysql2": "^2.1.0"
   }
 }

@@ -1,7 +1,10 @@
+// Written by Marlon Guandique
+
 const inquirer = require("inquirer");
-const cTable = require("console.table");
-const queryHandler = require("./db/db");
 const questions = require("./lib/questions");
+const queryHandler = require("./db/db");
+const cTable = require("console.table");
+
 
 async function menuHandler() {
     let response = await inquirer.prompt(questions.menu)
@@ -38,7 +41,7 @@ async function viewAllHandler(response) {
     }
 };
 async function addEntryHandler(table) {
-    if (table === 'departmento') {
+    if (table === 'department') {
         return await addDepartment()
     }
     if (table === 'role') {
@@ -50,13 +53,13 @@ async function addEntryHandler(table) {
 };
 async function addDepartment() {
     let response = await inquirer.prompt(questions.department)
-    await queryHandler.addRecord('departmento',`name="${response.name}"`)
+    await queryHandler.addRecord('department', `name="${response.name}"`)
     console.log("\nDepartment added!")
     return await done()
 }
 async function addRole() {
-    let question =  questions.role
-    const departments = await queryHandler.getAll('departmento')
+    let question = questions.role
+    const departments = await queryHandler.getAll('department')
     for (department of departments) {
         question[2].choices.push(department.name)
     }
@@ -71,7 +74,7 @@ async function addRole() {
     return await done()
 };
 async function addEmployee() {
-    let question = questions.employee 
+    let question = questions.employee
     const roles = await queryHandler.getAll('role')
     const employees = await queryHandler.getAll('employee')
     let idTracker = {}
@@ -87,7 +90,7 @@ async function addEmployee() {
     question[3].choices.push('None')
     idTracker['None'] = null
     const response = await inquirer.prompt(question)
-    question[2].choices,question[3].choices = []
+    question[2].choices, question[3].choices = []
     response.roleID = idTracker[response.role]
     response.managerID = idTracker[response.manager]
     await queryHandler.addRecord(
@@ -111,7 +114,7 @@ async function updateRole() {
         idTracker[role.title] = role.id
     }
     const response = await inquirer.prompt(question)
-    question[0].choices,question[1].choices = []
+    question[0].choices, question[1].choices = []
     await queryHandler.updateRecord(
         'employee',
         `role_id=${idTracker[response.role]}`,
