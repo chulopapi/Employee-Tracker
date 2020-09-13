@@ -9,7 +9,7 @@ const cTable = require("console.table");
 async function menuHandler() {
     let response = await inquirer.prompt(questions.menu)
     response = response.choice.toLowerCase().split(" ")
-    if (response.includes("view")) {
+    if (response.includes('displaying')) {
         return await viewAllHandler(response)
     }
     if (response.includes("add")) {
@@ -35,7 +35,12 @@ async function viewAllHandler(response) {
         return await done()
     }
     if (response.includes('employees')) {
-        result = await queryHandler.showAllEmployees()
+        try {
+            result = await queryHandler.showAllEmployees()
+        } catch(err) {
+            console.log("There was an error", err);
+        }
+        
         console.table(result)
         return await done()
     }

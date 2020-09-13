@@ -3,9 +3,7 @@ const mysql = require("mysql2/promise");
 const credentials = {
     host: 'localhost',
     port: 3306,
-    //MySQL username
     user: 'root',
-    //MySQL password
     password: '',
     database: 'employeeDB'
   };
