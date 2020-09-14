@@ -5,6 +5,7 @@ const questions = require("./lib/questions");
 const queryHandler = require("./db/db");
 const cTable = require("console.table");
 
+// Functions
 
 async function menuHandler() {
     let response = await inquirer.prompt(questions.menu)
@@ -37,10 +38,10 @@ async function viewAllHandler(response) {
     if (response.includes('employees')) {
         try {
             result = await queryHandler.showAllEmployees()
-        } catch(err) {
-            console.log("There was an error", err);
+        } catch (err) {
+            console.log("Error was found", err);
         }
-        
+
         console.table(result)
         return await done()
     }
