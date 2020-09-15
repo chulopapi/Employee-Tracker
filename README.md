@@ -23,7 +23,7 @@
 
 ## Questions? please contact me via email at <marlon.guandique@gmail.com> 
 
-## [Video Instructions on running the program](https://drive.google.com/file/d/1QBFY6LMa3cdUpgwsGT8jmUm5rupMmK25/view?usp=sharing)
+## [Video Instructions on running the program](https://drive.google.com/file/d/1QBFY6LMa3cdUpgwsGT8jmUm5rupMmK25/view)
 
 ### Sample page outputs
 
